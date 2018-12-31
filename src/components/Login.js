@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Icon, Input, Button, message} from 'antd';
 import { Link } from 'react-router-dom';
-import { API_ROOT} from "../constants";
+import { API_ROOT} from '../constants';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -23,6 +23,7 @@ class NormalLoginForm extends React.Component {
           .then((data) => {
             console.log(data)
             message.success('Login Success');
+            this.props.history.push('/home')
           })
           .catch((e) => {
             console.log(e)
