@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Icon, Input, Button, } from 'antd';
+import { Link } from 'react-router-dom';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -33,7 +34,7 @@ class NormalLoginForm extends React.Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <Link to='/register' href="">register now!</Link>
         </Form.Item>
       </Form>
     );
