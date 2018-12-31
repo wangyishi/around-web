@@ -1,7 +1,9 @@
-import React from 'react'
-import { Form, Icon, Input, Button, message} from 'antd';
+import React from 'react';
+import { Form, Icon, Input, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { API_ROOT} from '../constants';
+import { API_ROOT } from '../constants';
+
+const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -21,9 +23,8 @@ class NormalLoginForm extends React.Component {
           throw new Error(response.statusText);
         })
           .then((data) => {
-            console.log(data)
-            message.success('Login Success');
-            this.props.history.push('/home')
+            message.success('Login Success')
+            this.props.handleLogin(data);
           })
           .catch((e) => {
             console.log(e)
@@ -37,26 +38,26 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
+        <FormItem>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
           )}
-        </Form.Item>
-        <Form.Item>
+        </FormItem>
+        <FormItem>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
           )}
-        </Form.Item>
-        <Form.Item>
+        </FormItem>
+        <FormItem>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <Link to='/register' href="">register now!</Link>
-        </Form.Item>
+          Or <Link to="/register">register now!</Link>
+        </FormItem>
       </Form>
     );
   }

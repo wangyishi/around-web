@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const FormItem = Form.Item;
 
+
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
@@ -20,19 +21,23 @@ class RegistrationForm extends React.Component {
           body: JSON.stringify({
             username: values.username,
             password: values.password,
-          }),
+          })
         }).then((response) => {
           if (response.ok) {
             return response;
           }
           throw new Error(response.statusText);
-        }).then(() => {
-          message.success('Registration Succeed');
-          this.props.history.push('/login')
-        }).catch((e) => {
-          message.error('Registration Failed');
-          console.log(e);
         })
+          .then((response) => response.text())
+          .then((response) => {
+            console.log(response);
+            message.success('Registration Succeed');
+            this.props.history.push('/login');
+          })
+          .catch((e) => {
+            console.log(e)
+            message.error('Registration Failed');
+          });
       }
     });
   }
@@ -89,7 +94,7 @@ class RegistrationForm extends React.Component {
       <Form onSubmit={this.handleSubmit} className="register">
         <FormItem
           {...formItemLayout}
-          label="username"
+          label="Username"
         >
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!', whitespace: false }],
