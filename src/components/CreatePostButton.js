@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
+import {CreatePostForm} from './CreatePostForm';
 
 export class CreatePostButton extends React.Component {
   state = {
@@ -15,8 +16,13 @@ export class CreatePostButton extends React.Component {
   }
 
   handleOk = () => {
+    this.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values);
+      }
+    });
+
     this.setState({
-      ModalText: 'The modal will be closed after two seconds',
       confirmLoading: true,
     });
     setTimeout(() => {
@@ -34,21 +40,26 @@ export class CreatePostButton extends React.Component {
     });
   }
 
+  saveFormRef = (formInstance) => {
+    this.form = formInstance;
+  }
+
   render() {
-    const { visible, confirmLoading, ModalText } = this.state;
+    const { visible, confirmLoading } = this.state;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
           Create New Post
         </Button>
         <Modal
-          title="Title"
+          title="Create New Post"
           visible={visible}
           onOk={this.handleOk}
+          okTest="Create"
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          <p>{ModalText}</p>
+          <CreatePostForm ref={this.saveFormRef}/>
         </Modal>
       </div>
     );
