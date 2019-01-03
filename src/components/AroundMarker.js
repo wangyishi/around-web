@@ -16,7 +16,8 @@ export class AroundMarker extends React.Component {
   }
 
   render() {
-    const {lat , lon : lng} = this.props.post.location;
+    const {user, message, url, location} = this.props.post;
+    const {lat , lon : lng} = location;
     return (
       <Marker
         position={{ lat, lng }}
@@ -25,7 +26,10 @@ export class AroundMarker extends React.Component {
       >
         {this.state.isOpen ? (
           <InfoWindow>
-            <div>Content</div>
+            <div>
+              <img src={url} alt={message} className="around-marker-image"/>
+              <p>{`${user}: ${message}`}</p>
+            </div>
           </InfoWindow>
         ) : null}
       </Marker>
