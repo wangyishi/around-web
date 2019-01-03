@@ -3,7 +3,6 @@ import { InfoWindow, Marker} from "react-google-maps"
 
 export class AroundMarker extends React.Component {
 
-
   state = {
     isOpen: false,
   }
@@ -17,7 +16,7 @@ export class AroundMarker extends React.Component {
   }
 
   render() {
-    const {lat , lng} = this.props.position;
+    const {lat , lon : lng} = this.props.post.location;
     return (
       <Marker
         position={{ lat, lng }}
