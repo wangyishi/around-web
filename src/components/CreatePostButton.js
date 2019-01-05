@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, message } from 'antd';
-import {CreatePostForm} from './CreatePostForm';
-import { POS_KEY, API_ROOT, AUTH_HEADER, TOKEN_KEY, LOC_SHAKE } from '../constants';
+import { CreatePostForm } from './CreatePostForm';
+import { API_ROOT, POS_KEY, TOKEN_KEY, AUTH_HEADER, LOC_SHAKE } from '../constants';
 
 export class CreatePostButton extends React.Component {
   state = {
@@ -23,26 +23,26 @@ export class CreatePostButton extends React.Component {
         const { lat, lon } = JSON.parse(localStorage.getItem(POS_KEY));
         const token = localStorage.getItem(TOKEN_KEY);
         const formData = new FormData();
-        formData.set('lat', lat + LOC_SHAKE * Math.random() * 2 - Location);
-        formData.set('lon', lon + LOC_SHAKE * Math.random() * 2 - Location);
+        formData.set('lat', lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE);
+        formData.set('lon', lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE);
         formData.set('message', values.message);
         formData.set('image', values.image[0].originFileObj);
 
         this.setState({ confirmLoading: true });
         fetch(`${API_ROOT}/post`, {
           method: 'POST',
-          body: formData,
           headers: {
             Authorization: `${AUTH_HEADER} ${token}`,
-          }
+          },
+          body: formData,
         }).then((response) => {
-            if (response.ok) {
-              this.form.resetFields();
-              this.setState({ visible: false, confirmLoading: false });
-              return this.props.loadNearbyPosts();
-            }
-            throw new Error(response.statusText);
-          })
+          if (response.ok) {
+            this.form.resetFields();
+            this.setState({ visible: false, confirmLoading: false });
+            return this.props.loadNearbyPosts();
+          }
+          throw new Error(response.statusText);
+        })
           .then(() => message.success('Post created successfully!'))
           .catch((e) => {
             console.log(e);
@@ -71,13 +71,12 @@ export class CreatePostButton extends React.Component {
         <Button type="primary" onClick={this.showModal}>
           Create New Post
         </Button>
-        <Modal
-          title="Create New Post"
-          visible={visible}
-          onOk={this.handleOk}
-          okTest="Create"
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
+        <Modal title="Create New Post"
+               visible={visible}
+               onOk={this.handleOk}
+               okText="Create"
+               confirmLoading={confirmLoading}
+               onCancel={this.handleCancel}
         >
           <CreatePostForm ref={this.saveFormRef}/>
         </Modal>
